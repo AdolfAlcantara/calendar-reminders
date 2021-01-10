@@ -1,12 +1,15 @@
+import * as $ from 'jquery';
+import Popper from 'popper.js';
+import 'bootstrap/dist/css/bootstrap.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import AppRouter from './router/AppRouter';
 import reportWebVitals from './reportWebVitals';
+import "react-datepicker/dist/react-datepicker.css";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <AppRouter/>
   </React.StrictMode>,
   document.getElementById('root')
 );
