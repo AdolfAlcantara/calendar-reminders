@@ -21,9 +21,15 @@ const Day: React.FC<DayProps> = ({ date,reminders }) =>{
                 </Link>
                 {
                     reminders.map((reminder)=>(
-                        <div className="col">
-                            <p style={{color:reminder.color}}>{reminder.description} at {moment(reminder.date).format('h:mm a')}</p>
-                        </div>)
+                        <Link to={{pathname:`/editActivity/${reminder.id}`,
+                                    state:{
+                                        reminder
+                                    }}}>
+                            <div className="col">
+                                <p style={{color:reminder.color}}>{reminder.description} at {moment(reminder.date).format('h:mm a')}</p>
+                            </div>
+                        </Link>
+                        )
                     )             
                 }
                 {/* <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>

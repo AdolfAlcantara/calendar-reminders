@@ -1,9 +1,9 @@
-
 export type IDay = {
-    date: Date
+    date: Date;
 }
 
 export interface Reminder {
+    id:string;
     date: Date;
     description:string;
     city:string;

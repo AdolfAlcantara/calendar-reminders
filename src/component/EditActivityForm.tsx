@@ -6,10 +6,8 @@ import {useDispatch} from 'react-redux';
 import {ReminderActionTypes} from '../reducer/types/reminderTypes';
 // import {RemindersContext,IReminderContext} from '../context/reminderContext';
 import ColorPicker from 'react-pick-color';
-import {v4 as uuidv4} from 'uuid';
 
-
-const AddActivityForm: React.FC = () =>{
+const EditActivityForm: React.FC = (props) =>{
     const [startDate, setStartDate] = useState(new Date());
     const [reminder, setReminder] = useState<Reminder>({} as Reminder)
     const [color, setColor] = useState('#000');
@@ -17,27 +15,28 @@ const AddActivityForm: React.FC = () =>{
     // const {dispatch} = useContext<IReminderContext>(RemindersContext);
     const dispatch = useDispatch<Dispatch<ReminderActionTypes>>();
 
-    const location = useLocation<{ date:Date }>();
+    const location = useLocation<{ reminder:Reminder }>();
     const history = useHistory();
 
 
     useEffect(()=>{
-        setStartDate(location.state.date);
-        setReminder({...reminder,color,date:location.state.date});
+        setStartDate(location.state.reminder.date);
+        setColor(location.state.reminder.color);
+        setReminder(location.state.reminder);
     }, [])
 
-    const addReminderToState = (e:React.MouseEvent) =>{
+    const editReminderToState = (e:React.MouseEvent) =>{
         e.preventDefault();
         dispatch({
-            type:"AddReminder",
-            reminder:{...reminder,id:uuidv4()}
+            type:"EditReminder",
+            reminder:reminder
         });
         history.push('/');
     }
 
     return(
         <>
-            <h1>New Reminder</h1>
+            <h1>Edit Reminder</h1>
             <form>
                 
                 <div className="form-group">
@@ -46,19 +45,23 @@ const AddActivityForm: React.FC = () =>{
                         selected={startDate} 
                         showTimeSelect dateFormat="Pp" 
                         onChange={(e:Date)=>{setStartDate(e);
-                        setReminder({...reminder,date:e})}} />
+                        setReminder({...reminder,date:e})}}/>
                 </div>
                 <div className="form-group">
                     <label>Reminder</label>
                     <input 
+                        type="text" 
                         maxLength={30} 
                         className="form-control" 
-                        placeholder={"Insert remainder"} 
+                        placeholder={"Insert remainder"}
+                        value = {reminder.description}
                         onChange={(e)=>setReminder({...reminder,description:e.target.value})}/>
                 </div>
                 <div className="form-group">
                     <label>City</label>
-                    <input 
+                    <input
+                        type="text" 
+                        value = {reminder.city}
                         className="form-control" 
                         placeholder={"Insert city"} 
                         onChange={(e)=>setReminder({...reminder,city:e.target.value})}/>
@@ -69,14 +72,14 @@ const AddActivityForm: React.FC = () =>{
                                         setColor(color.hex);
                                         setReminder({...reminder,color:color.hex})}}/>
                 <button 
-                    type="submit" 
+                    type="submit"
                     className="btn btn-primary mt-3" 
-                    onClick={(e)=>addReminderToState(e)}>
-                        Submit
+                    onClick={(e)=>editReminderToState(e)}>
+                        Edit
                 </button>
             </form>
         </>
     )
 }
 
-export default AddActivityForm
+export default EditActivityForm

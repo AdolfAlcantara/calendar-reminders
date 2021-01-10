@@ -5,5 +5,10 @@ interface AddReminder {
     reminder:Reminder
 };
 
+interface EditReminder {
+    type:string,
+    reminder:Reminder
+};
 
-export type ReminderActionTypes = AddReminder;
+
+export type ReminderActionTypes = AddReminder | EditReminder;

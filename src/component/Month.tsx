@@ -1,7 +1,10 @@
-import {useEffect, useState, useContext} from 'react'
+import {useEffect, useState} from 'react'
+import {useSelector} from 'react-redux'
 import Day from './Day';
 import moment from 'moment';
-import {RemindersContext,IReminderContext} from '../context/reminderContext';
+import {RemindersState} from '../interfaces/remainderInterfaces';
+// import remainderReducer from '../reducer/reminderReducer';
+// import {RemindersContext,IReminderContext} from '../context/reminderContext';
 
 
 const Month = () =>{
@@ -9,7 +12,9 @@ const Month = () =>{
                                                     .fill([])
                                                     .map(()=>new Array(7)
                                                                 .fill({date:0})));
-    const {reminders} = useContext<IReminderContext>(RemindersContext);
+    // const {reminders} = useContext<IReminderContext>(RemindersContext);
+    const reminderSelector = (state:RemindersState) =>state.reminders;
+    const reminders = useSelector(reminderSelector);
     
     
     const weeksCount = 5;
@@ -19,9 +24,7 @@ const Month = () =>{
         let actualDate = moment().startOf('month');
         while(!(actualDate.format('dddd') === 'Sunday')){
             actualDate = actualDate.subtract(1,'days');
-            console.log(actualDate.format('dddd'));
         }
-        console.log(weeks);
         for(let x=0;x<weeksCount;x++){
             for(let y=0;y<daysInWeek;y++){
                 let copy = [...weeks];
@@ -30,7 +33,6 @@ const Month = () =>{
                 actualDate = actualDate.add(1,'days');
             }
         }
-        console.log(weeks);
     },[])
     
     return(
